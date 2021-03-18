@@ -29,25 +29,57 @@ public class TextMatcher {
      *
      * */
      int matrixColumnSize = 3; //Depends on the number of the documents + the first column for the actual shingle itself
-     ArrayList<ArrayList<String>> sparseMatrix = sparseMatrixGenerator(shingles_a,
+     ArrayList<ArrayList<String>> sparseMatrix = generateSparseMatrix(shingles_a,
                                                                         shingles_b, mergedShingles, matrixColumnSize);
 
       //Generate random permutations, we would be generating N Permutations
-
-
       //Generate reduced Matrix (The smaller compressed version)
+     ArrayList<ArrayList<String>> reducedMatrixMatrix = generateReducedMatrix(sparseMatrix, matrixColumnSize,5);
 
       //Calculate Jaccord score from the reduced matrix
 
       return 0.5f;
     }
 
+    private static ArrayList<ArrayList<String>> generateReducedMatrix(ArrayList<ArrayList<String>> sparseMatrix, int colSize, int randomPermutationsIterations) {
+
+        //Todo Bottleneck
+        /*
+        * A poor algorithm for generating large numbers of random permutations could be problematic
+        * Because it would end up taking a lot of the time, if we generate it in a naive manner
+        * i-e checking a whether or not a newly generated random index exist in a already generated random sequence
+        * */
+        for (int i =0; i < randomPermutationsIterations; i++){
+            int[] randomPermutationOfArrayIndices;
+            randomPermutationOfArrayIndices = generateRandomArrayPermutation(sparseMatrix.size());
+        }
+
+    }
+
+    //TODO
+    /*
+    * Bottleneck very slow algorithm for generating big number of random permutations
+    * */
+    private static int[] generateRandomArrayPermutation(int size) {
+        int[] randomPermutation =  new int[size];
+        int permutationsGeneratedSize = 0;
+        while (permutationsGeneratedSize < size){
+
+        }
+
+    }
+
     /*
     * TODO
     *  This method could probably be written in a more efficient manner
     *  Right now it has a lot of repetitive for-loops
+    *
+    * TODO Bottleneck
+    *  Another optimization which can be done is that instead of generating many columns, only generate a single column
+    *  containing a single string, and this string can then be further divided into columns to represent 1 or 0
+    *  this would end up saving a lot of space and possibly performance
     * */
-    private static ArrayList<ArrayList<String>> sparseMatrixGenerator(ArrayList<String> shingles_a, ArrayList<String> shingles_b, ArrayList<String> mergedShingles, int matrixColumnSize) {
+    private static ArrayList<ArrayList<String>> generateSparseMatrix(ArrayList<String> shingles_a, ArrayList<String> shingles_b, ArrayList<String> mergedShingles, int matrixColumnSize) {
         ArrayList<ArrayList<String>> sparseMatrix= new ArrayList<>();
 
         //Visit all shingles, and for each shingle make a entry in the sparseMatrix for Document-A and Document-B
