@@ -16,6 +16,6 @@ public class main {
 
         float matchPercentage = TextMatcher.match(str_file_a, str_file_b);
 
-        System.out.printf("Text-A and Text-B Similarity Score = %.2f", matchPercentage);
+        System.out.printf("Text-A and Text-B Similarity Score = %.2f %%", matchPercentage);
     }
 }

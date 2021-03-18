@@ -2,7 +2,8 @@ import java.util.ArrayList;
 
 public class TextMatcher {
 
-    private static int shingleSize = 3;
+    private static int shingleSize = 2;
+
     public static float match(String a, String b){
 
       // Transform string to lowercase
@@ -17,6 +18,7 @@ public class TextMatcher {
       int matchedShingles = 0;
 
       //Try to match every shingle with every other shingle in order to find a matching pair
+     // O^2 algorithm, this version of algorithm is not scalable for large datasets
       for (int i = 0 ; i < shingles_a.size(); i++){
           for (int j = 0 ; j < shingles_b.size(); j++){
 
