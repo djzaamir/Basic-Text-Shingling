@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class TextMatcher {
 
-    private static int shingleSize = 2;
+    private static final int shingleSize = 2;
 
     public static float match(String a, String b){
 
@@ -11,22 +11,26 @@ public class TextMatcher {
       String bNormalized = normalizeText(b);
 
       //Generate shingles from both strings
-      ArrayList<String> shingles = generateShingles(aNormalized ,shingleSize);
+      ArrayList<String> shingles = generateShingles(aNormalized);
       //To generate shingles from other set, we would be passing previous shingle set in
      // Because we want to combine both sets for further computation
-      generateShingles(bNormalized, shingleSize, shingles);
+      generateShingles(bNormalized, shingles);
 
-      int totalShingles = shingles.size();
-      int matchedShingles = 0;
+     //Generate Main Matrix (The larger original version)
 
-      //Generate random permutations
+      //Generate random permutations, we would be generating N Permutations
 
-      return ((float)matchedShingles / totalShingles) * 100;
+
+      //Generate reduced Matrix (The smaller compressed version)
+
+      //Calculate Jaccord score from the reduced matrix
+
+      return 0.5f;
     }
 
-    private static ArrayList<String> generateShingles(String str, int shingleSize, ArrayList<String> shingles) {
+    private static ArrayList<String> generateShingles(String str, ArrayList<String> shingles) {
         int start_offset = 0;
-        int end_offset = start_offset + shingleSize;
+        int end_offset = start_offset + TextMatcher.shingleSize;
 
         String[] words = str.split(" ");
 
@@ -42,12 +46,12 @@ public class TextMatcher {
         return shingles;
     }
 
-    private static ArrayList<String> generateShingles(String str, int shingleSize) {
+    private static ArrayList<String> generateShingles(String str) {
          //Create a new required Shingle ArrayList and pass it into overloaded generateShingle method
         // Doing so because this because both methods are doing exactly the same thing
        //  The only difference, one is creating the ArrayList internally and other accepting as a parameter
       //   So simply it, i've delegated the ArrayList creation process to this overload, and remaining process to other
-       return generateShingles(str, shingleSize, new ArrayList<String>());
+       return generateShingles(str, new ArrayList<String>());
     }
 
     private static String extractNWords(String[] words, int start_offset, int end_offset) {
