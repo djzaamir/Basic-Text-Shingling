@@ -11,46 +11,43 @@ public class TextMatcher {
       String bNormalized = normalizeText(b);
 
       //Generate shingles from both strings
-      ArrayList<String> shingles_a = generateShingles(aNormalized ,shingleSize);
-      ArrayList<String> shingles_b = generateShingles(bNormalized, shingleSize);
+      ArrayList<String> shingles = generateShingles(aNormalized ,shingleSize);
+      //To generate shingles from other set, we would be passing previous shingle set in
+     // Because we want to combine both sets for further computation
+      generateShingles(bNormalized, shingleSize, shingles);
 
-      int totalShingles = shingles_a.size() + shingles_b.size();
+      int totalShingles = shingles.size();
       int matchedShingles = 0;
 
-      //Try to match every shingle with every other shingle in order to find a matching pair
-     // O^2 algorithm, this version of algorithm is not scalable for large datasets
-      for (int i = 0 ; i < shingles_a.size(); i++){
-          for (int j = 0 ; j < shingles_b.size(); j++){
-
-              //Try to match exact shingles
-              if (shingles_a.get(i).equals(shingles_b.get(j))){
-                  matchedShingles++;
-              }
-          }
-      }
+      //Generate random permutations
 
       return ((float)matchedShingles / totalShingles) * 100;
     }
 
-    private static ArrayList<String> generateShingles(String str, int shingleSize) {
+    private static ArrayList<String> generateShingles(String str, int shingleSize, ArrayList<String> shingles) {
         int start_offset = 0;
         int end_offset = start_offset + shingleSize;
-
-        ArrayList<String> tr =  new ArrayList<>();
 
         String[] words = str.split(" ");
 
         //Extract shingles
         while (end_offset <= words.length){
             String shingle = extractNWords(words, start_offset, end_offset);
-            tr.add(shingle);
+            shingles.add(shingle);
 
             //move shingle bracket to next K pairs
             start_offset++;
             end_offset++;
         }
+        return shingles;
+    }
 
-        return tr;
+    private static ArrayList<String> generateShingles(String str, int shingleSize) {
+         //Create a new required Shingle ArrayList and pass it into overloaded generateShingle method
+        // Doing so because this because both methods are doing exactly the same thing
+       //  The only difference, one is creating the ArrayList internally and other accepting as a parameter
+      //   So simply it, i've delegated the ArrayList creation process to this overload, and remaining process to other
+       return generateShingles(str, shingleSize, new ArrayList<String>());
     }
 
     private static String extractNWords(String[] words, int start_offset, int end_offset) {
