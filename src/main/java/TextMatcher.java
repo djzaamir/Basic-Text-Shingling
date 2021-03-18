@@ -64,9 +64,23 @@ public class TextMatcher {
         int[] randomPermutation =  new int[size];
         int permutationsGeneratedSize = 0;
         while (permutationsGeneratedSize < size){
-
+            boolean validRandomIndex;
+            int rand_index;
+            do{
+                validRandomIndex = true;
+                rand_index = (int) ((Math.random() * 100) % size);
+                //Make sure it does not already exists
+                for (int i = 0; i < permutationsGeneratedSize; i++) {
+                    if (randomPermutation[i] == rand_index){
+                        validRandomIndex = false;
+                        break;
+                    }
+                }
+            }
+            while(!validRandomIndex);
+            randomPermutation[permutationsGeneratedSize++] = rand_index;
         }
-
+        return randomPermutation;
     }
 
     /*
